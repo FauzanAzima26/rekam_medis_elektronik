@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pasien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
 
 class PasienController extends Controller
 {
@@ -18,8 +19,11 @@ class PasienController extends Controller
 
     public function getData()
     {
-        $pasien = Pasien::all();
-        return response()->json(['data' => $pasien]);
+        $pasien = Pasien::orderByDesc('created_at');
+
+        return DataTables::of($pasien)
+            ->addIndexColumn()
+            ->make(true);
     }
 
     /**

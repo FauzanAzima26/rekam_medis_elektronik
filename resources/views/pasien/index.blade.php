@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container-fluid">
+<div class="container-fluid mt-5 mb-5">
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -15,14 +15,14 @@
                         <h5 class="card-title mb-0 fw-semibold">
                             Pasien
                         </h5>
+                        <button type="button" class="btn btn-success create-new ms-auto"> <i class="ti ti-plus me-1"></i> Tambah Pasien </button>
                     </div>
                 </div>
                 <div class="card-datatable table-responsive pt-0">
                     <table class="table border-top" id="pasienTable" data-pasien="{{ route('pasien.getData') }}">
                         <thead>
                             <tr>
-                                <th></th>
-                                <th></th>
+                                <th class="text-center" width="8%">No.</th>
                                 <th class="text-center" width="8%">No. RM</th>
                                 <th style="text-align:center">Nama Lengkap</th>
                                 <th style="text-align:center">Tanggal Lahir</th>

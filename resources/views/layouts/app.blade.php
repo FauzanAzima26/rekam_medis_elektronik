@@ -55,6 +55,8 @@
     <link rel="stylesheet" href="../../assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css" />
     <!-- Form Validation -->
     <link rel="stylesheet" href="../../assets/vendor/libs/@form-validation/form-validation.css" />
+    <!-- select2 -->
+    <link rel="stylesheet" href="../../assets/vendor/libs/select2/select2.css" />
 
     <!-- Page CSS -->
 
@@ -121,6 +123,8 @@
     <script src="../../assets/vendor/libs/@form-validation/popular.js"></script>
     <script src="../../assets/vendor/libs/@form-validation/bootstrap5.js"></script>
     <script src="../../assets/vendor/libs/@form-validation/auto-focus.js"></script>
+    <!-- select2 -->
+    <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
 
     <!-- Main JS -->
     <script src="../../assets/js/main.js"></script>

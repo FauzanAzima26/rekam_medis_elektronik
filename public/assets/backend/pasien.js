@@ -1,587 +1,282 @@
-"use strict";
-
-let fv, modal;
-
-document.addEventListener("DOMContentLoaded", function (e) {
-    (function () {
-        const formAddNewRecord = document.getElementById("formPasien");
-
-        setTimeout(() => {
-            $(document).on("click", ".create-new", function () {
-                const modalElement = document.getElementById("modalPasien");
-
-                $("#barangId").val("");
-
-                modalElement.querySelector(".no_rm").value = "";
-                modalElement.querySelector(".nama_lengkap").value = "";
-                modalElement.querySelector(".tanggal_lahir").value = "";
-                modalElement.querySelector(".gender").value = "";
-                modalElement.querySelector(".usia").value = "";
-                modalElement.querySelector(".no_hp").value = "";
-                modalElement.querySelector(".alamat").value = "";
-                modalElement.querySelector(".jenis_pasien").value = "";
-
-                fv.resetForm(true);
-                $("#formPasien .is-invalid").removeClass("is-invalid");
-                $("#formPasien .invalid-feedback").empty();
-                bootstrap.Modal.getOrCreateInstance(modalElement).show();
-            });
-        }, 200);
-
-        // Form validation for Add new record
-        fv = FormValidation.formValidation(formAddNewRecord, {
-            fields: {
-                no_rm: {
-                    validators: {
-                        notEmpty: {
-                            message: "No. RM Wajib Diisi",
-                        },
-                    },
-                },
-                nama_lengkap: {
-                    validators: {
-                        notEmpty: {
-                            message: "Nama Lengkap Wajib Diisi",
-                        },
-                    },
-                },
-                tanggal_lahir: {
-                    validators: {
-                        notEmpty: {
-                            message: "Tanggal Lahir Wajib Diisi",
-                        },
-                    },
-                },
-                gender: {
-                    validators: {
-                        notEmpty: {
-                            message: "Jenis Kelamin Wajib Diisi",
-                        },
-                    },
-                },
-                usia: {
-                    validators: {
-                        notEmpty: {
-                            message: "Usia Wajib Diisi",
-                        },
-                    },
-                },
-                no_hp: {
-                    validators: {
-                        notEmpty: {
-                            message: "No. Hp Wajib Diisi",
-                        },
-                    },
-                },
-                alamat: {
-                    validators: {
-                        notEmpty: {
-                            message: "Alamat Wajib Diisi",
-                        },
-                    },
-                },
-                jenis_pasien: {
-                    validators: {
-                        notEmpty: {
-                            message: "Jenis Pasien Wajib Diisi",
-                        },
-                    },
-                },
-            },
-            plugins: {
-                trigger: new FormValidation.plugins.Trigger(),
-                bootstrap5: new FormValidation.plugins.Bootstrap5({
-                    // Use this for enabling/changing valid/invalid class
-                    // eleInvalidClass: '',
-                    eleValidClass: "",
-                    rowSelector: ".col-12",
-                }),
-                submitButton: new FormValidation.plugins.SubmitButton(),
-                // defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
-                autoFocus: new FormValidation.plugins.AutoFocus(),
-            },
-            init: (instance) => {
-                instance.on("plugins.message.placed", function (e) {
-                    if (
-                        e.element.parentElement.classList.contains(
-                            "input-group",
-                        )
-                    ) {
-                        e.element.parentElement.insertAdjacentElement(
-                            "afterend",
-                            e.messageElement,
-                        );
-                    }
-                });
-            },
-        });
-
-        // FlatPickr Initialization & Validation
-        const flatpickrDate = document.querySelector('[name="basicDate"]');
-
-        if (flatpickrDate) {
-            flatpickrDate.flatpickr({
-                enableTime: false,
-                // See https://flatpickr.js.org/formatting/
-                dateFormat: "m/d/Y",
-                // After selecting a date, we need to revalidate the field
-                onChange: function () {
-                    fv.revalidateField("basicDate");
-                },
-            });
-        }
-    })();
-});
-
-// datatable (jquery)
 $(function () {
-    var dt_basic_table = $("#pasienTable"),
-        dt_basic;
-    var url = $("#pasienTable").data("pasien");
+    let pasienTable = $("#pasienTable").DataTable({
+        processing: true,
+        scrollX: true,
+        ajax: $("#pasienTable").data("pasien"),
 
-    if (dt_basic_table.length) {
-        dt_basic = dt_basic_table.DataTable({
-            ajax: url,
-            // data: dataDummyBarang,
-            columns: [
-                {
-                    data: null,
-                    defaultContent: "",
-                    className: "control",
-                    orderable: false,
-                    searchable: false,
-                },
-                { data: "" },
-                {
-                    data: null,
-                    render: (data, type, row, meta) => meta.row + 1,
-                    className: "text-center",
-                },
-                {
-                    data: "no_rm",
-                    className: "text-center",
-                },
-                {
-                    data: "nama_lengkap",
-                    className: "text-center",
-                },
-                {
-                    data: "tanggal_lahir",
-                    className: "text-center",
-                },
-                {
-                    data: "gender",
-                    className: "text-center",
-                    render: function (data) {
-                        if (data === "L") {
-                            return "Laki-laki";
-                        } else if (data === "P") {
-                            return "Perempuan";
-                        }
-                        return data ?? "-";
-                    },
-                },
-                {
-                    data: "usia",
-                    className: "text-center",
-                },
-                {
-                    data: "no_hp",
-                    className: "text-center",
-                },
-                {
-                    data: "alamat",
-                    className: "text-center",
-                },
-                { data: "" },
-            ],
-            columnDefs: [
-                {
-                    // For Responsive
-                    data: null,
-                    defaultContent: "",
-                    className: "control",
-                    orderable: false,
-                    searchable: false,
-                    responsivePriority: 2,
-                    targets: 0,
-                    render: function (data, type, full, meta) {
-                        return "";
-                    },
-                },
-                {
-                    // For Checkboxes
-                    data: null,
-                    defaultContent: "",
-                    targets: 1,
-                    orderable: false,
-                    searchable: false,
-                    responsivePriority: 3,
-                    checkboxes: true,
-                    render: function () {
-                        return '<input type="checkbox" class="dt-checkboxes form-check-input">';
-                    },
-                    checkboxes: {
-                        selectAllRender:
-                            '<input type="checkbox" class="form-check-input">',
-                    },
-                },
-                {
-                    targets: -1,
-                    data: null,
-                    className: "text-center",
-                    orderable: false,
-                    searchable: false,
-                    render: function (data, type, row) {
-                        return `
-                <div class="d-inline-flex gap-1">
-                    <button type="button"
-                        class="btn btn-sm btn-icon btn-text-secondary waves-effect"
-                        title="Edit"
-                        data-id="${row.id}">
-                        <i class="ti ti-edit"></i>
-                    </button>
-
-                    <button type="button"
-                        class="btn btn-sm btn-icon btn-text-danger waves-effect"
-                        title="Hapus"
-                        data-id="${row.id}">
-                        <i class="ti ti-trash"></i>
-                    </button>
-                </div>
-            `;
-                    },
-                },
-            ],
-            order: [[2, "asc"]],
-            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-6 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end mt-n6 mt-md-0"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            displayLength: 5,
-            lengthMenu: [5, 10, 25, 50, 75, 100],
-            language: {
-                paginate: {
-                    next: '<i class="ti ti-chevron-right ti-sm"></i>',
-                    previous: '<i class="ti ti-chevron-left ti-sm"></i>',
-                },
-                zeroRecords: "Tidak ada data pasien ✨",
+        columns: [
+            {
+                data: "DT_RowIndex",
+                name: "DT_RowIndex",
+                className: "text-center",
+                orderable: false,
+                searchable: false,
             },
-            buttons: [
-                {
-                    extend: "collection",
-                    className:
-                        "btn btn-label-success dropdown-toggle me-4 waves-effect waves-light border-none",
-                    text: '<i class="ti ti-file-export ti-xs me-sm-1"></i> <span class="d-none d-sm-inline-block">Export</span>',
-                    buttons: [
-                        {
-                            extend: "print",
-                            text: '<i class="ti ti-printer me-1" ></i>Print',
-                            className: "dropdown-item",
-                            exportOptions: {
-                                columns: [3, 4, 5, 6, 7],
-                                // prevent avatar to be display
-                                format: {
-                                    body: function (inner, coldex, rowdex) {
-                                        if (inner.length <= 0) return inner;
-                                        var el = $.parseHTML(inner);
-                                        var result = "";
-                                        $.each(el, function (index, item) {
-                                            if (
-                                                item.classList !== undefined &&
-                                                item.classList.contains(
-                                                    "user-name",
-                                                )
-                                            ) {
-                                                result =
-                                                    result +
-                                                    item.lastChild.firstChild
-                                                        .textContent;
-                                            } else if (
-                                                item.innerText === undefined
-                                            ) {
-                                                result =
-                                                    result + item.textContent;
-                                            } else
-                                                result =
-                                                    result + item.innerText;
-                                        });
-                                        return result;
-                                    },
-                                },
-                            },
-                            customize: function (win) {
-                                //customize print view for dark
-                                $(win.document.body)
-                                    .css("color", config.colors.headingColor)
-                                    .css(
-                                        "border-color",
-                                        config.colors.borderColor,
-                                    )
-                                    .css(
-                                        "background-color",
-                                        config.colors.bodyBg,
-                                    );
-                                $(win.document.body)
-                                    .find("table")
-                                    .addClass("compact")
-                                    .css("color", "inherit")
-                                    .css("border-color", "inherit")
-                                    .css("background-color", "inherit");
-                            },
-                        },
-                        {
-                            extend: "csv",
-                            text: '<i class="ti ti-file-text me-1" ></i>Csv',
-                            className: "dropdown-item",
-                            exportOptions: {
-                                columns: [3, 4, 5, 6, 7],
-                                // prevent avatar to be display
-                                format: {
-                                    body: function (inner, coldex, rowdex) {
-                                        if (inner.length <= 0) return inner;
-                                        var el = $.parseHTML(inner);
-                                        var result = "";
-                                        $.each(el, function (index, item) {
-                                            if (
-                                                item.classList !== undefined &&
-                                                item.classList.contains(
-                                                    "user-name",
-                                                )
-                                            ) {
-                                                result =
-                                                    result +
-                                                    item.lastChild.firstChild
-                                                        .textContent;
-                                            } else if (
-                                                item.innerText === undefined
-                                            ) {
-                                                result =
-                                                    result + item.textContent;
-                                            } else
-                                                result =
-                                                    result + item.innerText;
-                                        });
-                                        return result;
-                                    },
-                                },
-                            },
-                        },
-                        {
-                            extend: "excel",
-                            text: '<i class="ti ti-file-spreadsheet me-1"></i>Excel',
-                            className: "dropdown-item",
-                            exportOptions: {
-                                columns: [3, 4, 5, 6, 7],
-                                // prevent avatar to be display
-                                format: {
-                                    body: function (inner, coldex, rowdex) {
-                                        if (inner.length <= 0) return inner;
-                                        var el = $.parseHTML(inner);
-                                        var result = "";
-                                        $.each(el, function (index, item) {
-                                            if (
-                                                item.classList !== undefined &&
-                                                item.classList.contains(
-                                                    "user-name",
-                                                )
-                                            ) {
-                                                result =
-                                                    result +
-                                                    item.lastChild.firstChild
-                                                        .textContent;
-                                            } else if (
-                                                item.innerText === undefined
-                                            ) {
-                                                result =
-                                                    result + item.textContent;
-                                            } else
-                                                result =
-                                                    result + item.innerText;
-                                        });
-                                        return result;
-                                    },
-                                },
-                            },
-                        },
-                        {
-                            extend: "pdf",
-                            text: '<i class="ti ti-file-description me-1"></i>Pdf',
-                            className: "dropdown-item",
-                            exportOptions: {
-                                columns: [3, 4, 5, 6, 7],
-                                // prevent avatar to be display
-                                format: {
-                                    body: function (inner, coldex, rowdex) {
-                                        if (inner.length <= 0) return inner;
-                                        var el = $.parseHTML(inner);
-                                        var result = "";
-                                        $.each(el, function (index, item) {
-                                            if (
-                                                item.classList !== undefined &&
-                                                item.classList.contains(
-                                                    "user-name",
-                                                )
-                                            ) {
-                                                result =
-                                                    result +
-                                                    item.lastChild.firstChild
-                                                        .textContent;
-                                            } else if (
-                                                item.innerText === undefined
-                                            ) {
-                                                result =
-                                                    result + item.textContent;
-                                            } else
-                                                result =
-                                                    result + item.innerText;
-                                        });
-                                        return result;
-                                    },
-                                },
-                            },
-                        },
-                        {
-                            extend: "copy",
-                            text: '<i class="ti ti-copy me-1" ></i>Copy',
-                            className: "dropdown-item",
-                            exportOptions: {
-                                columns: [3, 4, 5, 6, 7],
-                                // prevent avatar to be display
-                                format: {
-                                    body: function (inner, coldex, rowdex) {
-                                        if (inner.length <= 0) return inner;
-                                        var el = $.parseHTML(inner);
-                                        var result = "";
-                                        $.each(el, function (index, item) {
-                                            if (
-                                                item.classList !== undefined &&
-                                                item.classList.contains(
-                                                    "user-name",
-                                                )
-                                            ) {
-                                                result =
-                                                    result +
-                                                    item.lastChild.firstChild
-                                                        .textContent;
-                                            } else if (
-                                                item.innerText === undefined
-                                            ) {
-                                                result =
-                                                    result + item.textContent;
-                                            } else
-                                                result =
-                                                    result + item.innerText;
-                                        });
-                                        return result;
-                                    },
-                                },
-                            },
-                        },
-                    ],
-                },
-                {
-                    text: '<i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Tambah Data Pasien</span>',
-                    className:
-                        "create-new btn btn-success waves-effect waves-light",
-                },
-            ],
-            responsive: {
-                details: {
-                    display: $.fn.dataTable.Responsive.display.modal({
-                        header: function (row) {
-                            var data = row.data();
-                            return "Details of " + data["nama_lengkap"];
-                        },
-                    }),
-                    type: "column",
-                    renderer: function (api, rowIdx, columns) {
-                        var data = $.map(columns, function (col, i) {
-                            return col.title !== "" // ? Do not show row in modal popup if title is blank (for check box)
-                                ? '<tr data-dt-row="' +
-                                      col.rowIndex +
-                                      '" data-dt-column="' +
-                                      col.columnIndex +
-                                      '">' +
-                                      "<td>" +
-                                      col.title +
-                                      ":" +
-                                      "</td> " +
-                                      "<td>" +
-                                      col.data +
-                                      "</td>" +
-                                      "</tr>"
-                                : "";
-                        }).join("");
-
-                        return data
-                            ? $('<table class="table"/><tbody />').append(data)
-                            : false;
-                    },
+            {
+                data: "no_rm",
+                name: "no_rm",
+                className: "text-center",
+            },
+            {
+                data: "nama_lengkap",
+                name: "nama_lengkap",
+                className: "text-center",
+            },
+            {
+                data: "tanggal_lahir",
+                name: "tanggal_lahir",
+                className: "text-center",
+                render: function (data) {
+                    if (!data) return "-";
+                    return data.substring(0, 10).split("-").reverse().join("-");
                 },
             },
-            initComplete: function (settings, json) {
-                $(".card-header").after('<hr class="my-0">');
+            {
+                data: "gender",
+                name: "gender",
+                className: "text-center",
+                render: function (data) {
+                    if (data === "L") return "Laki-laki";
+                    if (data === "P") return "Perempuan";
+
+                    return data ?? "-";
+                },
             },
-        });
-        $("div.head-label").html(
-            '<h5 class="card-title mb-0">DataTable with Buttons</h5>',
-        );
-    }
+            {
+                data: "usia",
+                name: "usia",
+                className: "text-center",
+            },
+            {
+                data: "no_hp",
+                name: "no_hp",
+                className: "text-center",
+            },
+            {
+                data: "alamat",
+                name: "alamat",
+            },
+            {
+                data: "jenis_pasien",
+                name: "jenis_pasien",
+                className: "text-center",
+            },
+            {
+                data: null,
+                className: "text-center",
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row) {
+                    return `
+                        <div class="d-inline-flex gap-1">
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-icon btn-text-warning waves-effect btn-edit"
+                                title="Edit"
+                                data-id="${row.id}">
+                                <i class="ti ti-edit"></i>
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-icon btn-text-danger waves-effect btn-delete"
+                                title="Hapus"
+                                data-id="${row.id}">
+                                <i class="ti ti-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                },
+            },
+        ],
+
+        order: [[0, "asc"]],
+        displayLength: 5,
+        lengthMenu: [5, 10, 25, 50, 75, 100],
+    });
+
+    $(document).on("click", ".create-new", function () {
+        $("#formPasien")[0].reset();
+        $("#pasienId").val("");
+
+        $("#modalPasien .modal-title").text("Tambah Data Pasien");
+
+        bootstrap.Modal.getOrCreateInstance(
+            document.getElementById("modalPasien"),
+        ).show();
+    });
 
     $(document).on("click", ".btn-edit", function () {
         let id = $(this).data("id");
-        let row = dt_basic.row($(this).closest("tr")).data();
-
-        $("#kategoriId").val(id);
-        $(".add-new-record .nama").val(row.nama);
-    });
-
-    fv.on("core.form.valid", function () {
-        let id = $("#pasienId").val();
-        let formElement = document.getElementById("formPasien");
-        let formData = new FormData(formElement);
-        let ajaxUrl = id ? `/pasien/${id}` : "/pasien";
-
-        if (id) {
-            formData.append("_method", "PUT");
-        }
 
         $.ajax({
-            url: ajaxUrl,
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                dt_basic.ajax.reload(null, false);
-                bootstrap.Modal.getInstance(
+            url: "/pasien/" + id,
+            type: "GET",
+
+            success: function (res) {
+                let data = res.data ?? res;
+
+                $("#pasienId").val(data.id);
+                $('[name="no_rm"]').val(data.no_rm);
+                $('[name="nama_lengkap"]').val(data.nama_lengkap);
+                $('[name="tanggal_lahir"]').val(data.tanggal_lahir);
+                $('[name="gender"]').val(data.gender);
+                $('[name="usia"]').val(data.usia);
+                $('[name="no_hp"]').val(data.no_hp);
+                $('[name="alamat"]').val(data.alamat);
+                $('[name="jenis_pasien"]').val(data.jenis_pasien);
+
+                $("#modalPasien .modal-title").text("Edit Data Pasien");
+
+                bootstrap.Modal.getOrCreateInstance(
                     document.getElementById("modalPasien"),
-                ).hide();
-                $("#formPasien").trigger("reset");
+                ).show();
             },
+
             error: function (xhr) {
-                if (xhr.status === 422) {
-                    const errors = xhr.responseJSON.errors;
-
-                    $(".invalid-feedback").text("");
-                    $(".form-control").removeClass("is-invalid");
-
-                    $.each(errors, function (field, messages) {
-                        const input = $(`[name="${field}"]`);
-                        const errorElement = $(`#error-${field}`);
-
-                        input.addClass("is-invalid");
-                        errorElement.text(messages[0]);
-                    });
-                } else {
-                    console.error(xhr.responseJSON);
-                }
+                Swal.fire(
+                    "Error",
+                    xhr.responseJSON?.message ?? "Gagal mengambil data pasien.",
+                    "error",
+                );
             },
         });
     });
 
-    // Filter form control to default size
-    // ? setTimeout used for multilingual table initialization
-    setTimeout(() => {
-        $(".dataTables_filter .form-control").removeClass("form-control-sm");
-        $(".dataTables_length .form-select").removeClass("form-select-sm");
-    }, 300);
+    $("#formPasien")
+        .off("submit")
+        .on("submit", function (e) {
+            e.preventDefault();
+
+            let id = $("#pasienId").val();
+            let formData = new FormData(this);
+
+            let ajaxUrl = id
+                ? "/pasien/" + id
+                : $("#pasienTable").data("store");
+
+            if (id) {
+                formData.append("_method", "PUT");
+            }
+
+            $.ajax({
+                url: ajaxUrl,
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+
+                success: function (res) {
+                    bootstrap.Modal.getOrCreateInstance(
+                        document.getElementById("modalPasien"),
+                    ).hide();
+
+                    $("#jenis_pasien").val("").trigger("change");
+                    $("#jenis_kelamin").val("").trigger("change");
+                    $("#formPasien")[0].reset();
+                    $("#pasienId").val("");
+
+                    pasienTable.ajax.reload(null, false);
+
+                    Swal.fire(
+                        "Berhasil",
+                        res.message ?? "Data pasien berhasil disimpan.",
+                        "success",
+                    );
+                },
+
+                error: function (xhr) {
+                    if (xhr.status === 422) {
+                        let msg = "";
+
+                        $.each(xhr.responseJSON.errors, function (key, value) {
+                            msg += value[0] + "\n";
+                        });
+
+                        Swal.fire("Validasi Gagal", msg, "error");
+                    } else {
+                        Swal.fire(
+                            "Error",
+                            xhr.responseJSON?.message ??
+                                "Terjadi kesalahan saat menyimpan data.",
+                            "error",
+                        );
+                    }
+                },
+            });
+        });
+
+    $(document).on("click", ".btn-delete", function () {
+        let id = $(this).data("id");
+
+        Swal.fire({
+            title: "Yakin ingin menghapus pasien?",
+            text: "Data pasien akan dihapus.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ya, hapus!",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/pasien/" + id,
+                    type: "POST",
+                    data: {
+                        _method: "DELETE",
+                        _token: $('meta[name="csrf-token"]').attr("content"),
+                    },
+
+                    success: function (res) {
+                        pasienTable.ajax.reload(null, false);
+
+                        Swal.fire(
+                            "Terhapus!",
+                            res.message ?? "Data pasien berhasil dihapus.",
+                            "success",
+                        );
+                    },
+
+                    error: function (xhr) {
+                        Swal.fire(
+                            "Error",
+                            xhr.responseJSON?.message ??
+                                "Gagal menghapus data pasien.",
+                            "error",
+                        );
+                    },
+                });
+            }
+        });
+    });
+});
+
+flatpickr("#tanggal_lahir", {
+    dateFormat: "Y-m-d",
+    altInput: true,
+    altFormat: "d-m-Y",
+    maxDate: "today",
+    allowInput: true,
+});
+document.querySelector(".ti-calendar").addEventListener("click", function () {
+    document.querySelector("#tanggal_lahir")._flatpickr?.open();
+});
+
+$(".select2-placeholder-muted").select2({
+    placeholder: function () {
+        return $(this).data("placeholder");
+    },
+    allowClear: true,
+    width: "100%",
+    dropdownParent: $("#modalPasien"),
+    minimumResultsForSearch: Infinity,
+
+    templateSelection: function (data) {
+        if (!data.id) {
+            return $("<span>")
+                .text(data.text || data.placeholder || "")
+                .addClass("text-muted");
+        }
+
+        return data.text;
+    },
 });

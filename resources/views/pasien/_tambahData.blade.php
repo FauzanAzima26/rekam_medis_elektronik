@@ -17,8 +17,8 @@
                             id="modalEditUserFirstName"
                             name="no_rm"
                             class="form-control no_rm"
-                            value="John" />
-                            <div class="invalid-feedback" id="error-no_rm"></div>
+                            placeholder="Masukan no. rm" />
+                        <div class="invalid-feedback" id="error-no_rm"></div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label class="form-label" for="modalEditUserLastName">Nama Lengkap</label>
@@ -27,29 +27,37 @@
                             id="modalEditUserLastName"
                             name="nama_lengkap"
                             class="form-control nama_lengkap"
-                            placeholder="Masukan nama lengkap"
-                            value="Doe" />
-                            <div class="invalid-feedback" id="error-nama_lengkap"></div>
+                            placeholder="Masukan nama lengkap" />
+                        <div class="invalid-feedback" id="error-nama_lengkap"></div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalEditUserName">Tanggal Lahir</label>
-                        <input
-                            type="date"
-                            id="modalEditUserName"
-                            name="tanggal_lahir"
-                            class="form-control tanggal_lahir"
-                            placeholder="johndoe007"
-                            value="johndoe007" />
-                            <div class="invalid-feedback" id="error-tanggal_lahir"></div>
+                        <label class="form-label" for="tanggal_lahir">Tanggal Lahir</label>
+
+                        <div class="input-group">
+                            <input
+                                type="text"
+                                id="tanggal_lahir"
+                                name="tanggal_lahir"
+                                placeholder="Masukan tanggal lahir"
+                                autocomplete="off"
+                                class="form-control tanggal_lahir"
+                                required />
+                            <span class="input-group-text">
+                                <i class="ti ti-calendar"></i>
+                            </span>
+                        </div>
+
+                        <div class="invalid-feedback" id="error-tanggal_lahir"></div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label class="form-label" for="modalEditUserEmail">Jenis Kelamin</label>
                         <select
-                            id="modalEditUserStatus"
+                            id="jenis_kelamin"
                             name="gender"
-                            class="select2 form-select gender"
-                            aria-label="Default select example">
-                            <option disabled>Jenis Kelamin</option>
+                            class="select2 form-select gender select2-placeholder-muted"
+                            aria-label="Default select example"
+                            data-placeholder="Jenis Kelamin">
+                            <option value=""></option>
                             <option value="L">Laki-laki</option>
                             <option value="P">Perempuan</option>
                         </select>
@@ -61,8 +69,9 @@
                             id="usia"
                             name="usia"
                             class="form-control usia"
-                            value="johndoe007" />
-                            <div class="invalid-feedback" id="error-usia"></div>
+                            value="johndoe007"
+                            placeholder="Masukan usia" />
+                        <div class="invalid-feedback" id="error-usia"></div>
                     </div>
                     <div class="col-12 col-md-4">
                         <label class="form-label" for="modalEditUserPhone">No. Handphone</label>
@@ -79,11 +88,12 @@
                     <div class="col-12 col-md-4">
                         <label class="form-label" for="modalEditTaxID">Jenis Pasien</label>
                         <select
-                            id="modalEditUserStatus"
+                            id="jenis_pasien"
                             name="jenis_pasien"
-                            class="select2 form-select jenis_pasien"
-                            aria-label="Default select example">
-                            <option disabled>Jenis Pasien</option>
+                            class="select2 form-select jenis_pasien select2-placeholder-muted"
+                            aria-label="Default select example"
+                            data-placeholder="Jenis Pasien">
+                            <option value="" disabled selected hidden>Jenis Pasien</option>
                             <option value="T">Tunai</option>
                             <option value="BPJS">BPJS</option>
                         </select>
@@ -93,7 +103,8 @@
                         <textarea
                             id="modalEditTaxID"
                             name="alamat"
-                            class="form-control alamat"></textarea>
+                            class="form-control alamat"
+                            placeholder="Masukan alamat"></textarea>
                         <div class="invalid-feedback" id="error-alamat"></div>
                     </div>
                     <div class="col-12 text-center">
