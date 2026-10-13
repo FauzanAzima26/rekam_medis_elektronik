@@ -70,7 +70,10 @@ class PasienController extends Controller
      */
     public function show(Pasien $pasien)
     {
-        //
+        return response()->json([
+            'success' => true,
+            'data' => $pasien
+        ]);
     }
 
     /**
@@ -86,7 +89,25 @@ class PasienController extends Controller
      */
     public function update(Request $request, Pasien $pasien)
     {
-        //
+        $validated = $request->validate([
+            'no_rm' => 'required',
+            'nama_lengkap' => 'required',
+            'tanggal_lahir' => 'required|date',
+            'gender' => 'required',
+            'usia' => 'required|integer',
+            'no_hp' => 'required',
+            'alamat' => 'required',
+            'jenis_pasien' => 'required',
+        ]);
+
+        // Simpan perubahan
+        $pasien->update($validated);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Pasien berhasil diperbarui',
+            'data' => $pasien
+        ]);
     }
 
     /**

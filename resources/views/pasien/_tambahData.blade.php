@@ -14,7 +14,7 @@
                         <label class="form-label" for="modalEditUserFirstName">No. RM</label>
                         <input
                             type="text"
-                            id="modalEditUserFirstName"
+                            id="no_rm"
                             name="no_rm"
                             class="form-control no_rm"
                             placeholder="Masukan no. rm" />
@@ -24,7 +24,7 @@
                         <label class="form-label" for="modalEditUserLastName">Nama Lengkap</label>
                         <input
                             type="text"
-                            id="modalEditUserLastName"
+                            id="nama_lengkap"
                             name="nama_lengkap"
                             class="form-control nama_lengkap"
                             placeholder="Masukan nama lengkap" />
@@ -101,7 +101,7 @@
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="modalEditTaxID">Alamat</label>
                         <textarea
-                            id="modalEditTaxID"
+                            id="alamat"
                             name="alamat"
                             class="form-control alamat"
                             placeholder="Masukan alamat"></textarea>

@@ -96,10 +96,12 @@ $(function () {
     });
 
     $(document).on("click", ".create-new", function () {
+        $("#modalPasien .modal-title").text("Tambah Data Pasien");
+
         $("#formPasien")[0].reset();
         $("#pasienId").val("");
-
-        $("#modalPasien .modal-title").text("Tambah Data Pasien");
+        $("#jenis_pasien").val("").trigger("change");
+        $("#jenis_kelamin").val("").trigger("change");
 
         bootstrap.Modal.getOrCreateInstance(
             document.getElementById("modalPasien"),
@@ -115,16 +117,21 @@ $(function () {
 
             success: function (res) {
                 let data = res.data ?? res;
+                const tanggal = data.tanggal_lahir
+                    ? data.tanggal_lahir.substring(0, 10)
+                    : "";
 
                 $("#pasienId").val(data.id);
-                $('[name="no_rm"]').val(data.no_rm);
-                $('[name="nama_lengkap"]').val(data.nama_lengkap);
-                $('[name="tanggal_lahir"]').val(data.tanggal_lahir);
-                $('[name="gender"]').val(data.gender);
-                $('[name="usia"]').val(data.usia);
-                $('[name="no_hp"]').val(data.no_hp);
-                $('[name="alamat"]').val(data.alamat);
-                $('[name="jenis_pasien"]').val(data.jenis_pasien);
+                $("#no_rm").val(data.no_rm);
+                $("#nama_lengkap").val(data.nama_lengkap);
+                document
+                    .querySelector("#tanggal_lahir")
+                    ._flatpickr?.setDate(tanggal, true, "Y-m-d");
+                $("#jenis_kelamin").val(data.gender).trigger("change");
+                $("#usia").val(data.usia);
+                $("#no_hp").val(data.no_hp);
+                $("#alamat").val(data.alamat);
+                $("#jenis_pasien").val(data.jenis_pasien).trigger("change");
 
                 $("#modalPasien .modal-title").text("Edit Data Pasien");
 
