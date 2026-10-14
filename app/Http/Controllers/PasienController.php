@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Pasien;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class PasienController extends Controller
@@ -51,7 +50,6 @@ class PasienController extends Controller
         ]);
 
         $pasien = Pasien::create([
-            'uuid'         => Str::uuid(),
             'no_rm'         => $validated['no_rm'],
             'nama_lengkap' => $validated['nama_lengkap'],
             'tanggal_lahir'  => $validated['tanggal_lahir'],

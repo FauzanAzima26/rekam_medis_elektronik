@@ -27,7 +27,7 @@
                         fill="#7367F0" />
                 </svg>
             </span>
-            <span class="app-brand-text demo menu-text fw-bold">Vuexy</span>
+            <span class="app-brand-text demo menu-text fw-bold">RME</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -43,13 +43,19 @@
         <li class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
             <a href="{{ route('dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                <div data-i18n="Page 1">Dashboard</div>
+                <div data-i18n="Dashboard">Dashboard</div>
             </a>
         </li>
         <li class="menu-item {{ request()->routeIs('pasien.*') ? 'active' : '' }}">
             <a href="{{ route('pasien.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-app-window"></i>
-                <div data-i18n="Page 2">Data Pasien</div>
+                <div data-i18n="Data Pasien">Data Pasien</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('pendaftaran.*') ? 'active' : '' }}">
+            <a href="{{ route('pendaftaran.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-app-window"></i>
+                <div data-i18n="Pendaftaran Pasien">Pendaftaran Pasien</div>
             </a>
         </li>
     </ul>

@@ -24,7 +24,7 @@
                             <tr>
                                 <th class="text-center" width="8%">No.</th>
                                 <th class="text-center" width="8%">No. RM</th>
-                                <th style="text-align:center">Nama Lengkap</th>
+                                <th style="text-align:center">Nama</th>
                                 <th style="text-align:center">Tanggal Lahir</th>
                                 <th style="text-align:center">Jenis Kelamin</th>
                                 <th style="text-align:center">Usia</th>
