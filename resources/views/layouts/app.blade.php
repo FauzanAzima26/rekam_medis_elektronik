@@ -125,6 +125,8 @@
     <script src="../../assets/vendor/libs/@form-validation/auto-focus.js"></script>
     <!-- select2 -->
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
+    <!-- sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Main JS -->
     <script src="../../assets/js/main.js"></script>

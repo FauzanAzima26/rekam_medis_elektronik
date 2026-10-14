@@ -99,6 +99,8 @@ $(function () {
         $("#modalPasien .modal-title").text("Tambah Data Pasien");
 
         $("#formPasien")[0].reset();
+        $("#formPasien .is-invalid").removeClass("is-invalid");
+        $("#formPasien .invalid-feedback").text("");
         $("#pasienId").val("");
         $("#jenis_pasien").val("").trigger("change");
         $("#jenis_kelamin").val("").trigger("change");
@@ -196,11 +198,12 @@ $(function () {
                     if (xhr.status === 422) {
                         let msg = "";
 
+                        $("#formPasien .is-invalid").removeClass("is-invalid");
+                        $("#formPasien .invalid-feedback").text("");
                         $.each(xhr.responseJSON.errors, function (key, value) {
-                            msg += value[0] + "\n";
+                            $("#" + key).addClass("is-invalid");
+                            $("#error-" + key).text(value[0]);
                         });
-
-                        Swal.fire("Validasi Gagal", msg, "error");
                     } else {
                         Swal.fire(
                             "Error",
