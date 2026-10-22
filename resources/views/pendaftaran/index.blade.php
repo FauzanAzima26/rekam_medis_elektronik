@@ -24,6 +24,9 @@
                             <tr>
                                 <th class="text-center" width="8%">No. Antrean</th>
                                 <th style="text-align:center">Nama</th>
+                                <th style="text-align:center">Tanggal Kunjungan</th>
+                                <th style="text-align:center">Keluhan</th>
+                                <th style="text-align:center">Jenis Kunjungan</th>
                                 <th style="text-align:center">Status</th>
                                 <th style="text-align:center;">Aksi</th>
                             </tr>

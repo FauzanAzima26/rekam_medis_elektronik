@@ -4693,7 +4693,7 @@ textarea.form-control-lg {
   color: var(--bs-badge-color);
   text-align: center;
   white-space: nowrap;
-  vertical-align: baseline;
+  vertical-align: middle;
   border-radius: var(--bs-badge-border-radius);
 }
 .badge:empty {

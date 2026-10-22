@@ -11,14 +11,43 @@ $(function () {
                 className: "text-center",
             },
             {
-                data: "nama_lengkap",
+                data: "pasien.nama_lengkap",
                 name: "nama_lengkap",
+                className: "text-center",
+            },
+            {
+                data: "tanggal_kunjungan",
+                name: "tanggal_kunjungan",
+                className: "text-center",
+                render: function (data) {
+                    if (!data) return "-";
+                    return data.substring(0, 10).split("-").reverse().join("-");
+                },
+            },
+            {
+                data: "keluhan",
+                name: "keluhan",
+                className: "text-center",
+            },
+            {
+                data: "jenis_kunjungan",
+                name: "jenis_kunjungan",
                 className: "text-center",
             },
             {
                 data: "status",
                 name: "status",
                 className: "text-center",
+                render: function (data, type) {
+                    if (type === "display") {
+                        return data === "Selesai"
+                            ? '<span class="badge bg-success">Selesai</span>'
+                            : '<span class="badge bg-primary">' +
+                                  data +
+                                  "</span>";
+                    }
+                    return data;
+                },
             },
             {
                 data: null,
@@ -69,50 +98,51 @@ $(function () {
         ).show();
     });
 
-    // $(document).on("click", ".btn-edit", function () {
-    //     let id = $(this).data("id");
+    $(document).on("click", ".btn-edit", function () {
+        let id = $(this).data("id");
 
-    //     $.ajax({
-    //         url: "/pendaftaran/" + id,
-    //         type: "GET",
+        $.ajax({
+            url: "/pendaftaran/" + id,
+            type: "GET",
 
-    //         success: function (res) {
-    //             let data = res.data ?? res;
-    //             const tanggal = data.tanggal_lahir
-    //                 ? data.tanggal_lahir.substring(0, 10)
-    //                 : "";
+            success: function (res) {
+                let data = res.data ?? res;
+                const tanggal = data.tanggal_kunjungan
+                    ? data.tanggal_kunjungan.substring(0, 10)
+                    : "";
 
-    //             $("#pendaftaranId").val(data.id);
-    //             $("#no_antrean").val(data.no_antrean);
-    //             $("#nama_lengkap").val(data.nama_lengkap);
-    //             document
-    //                 .querySelector("#tanggal_lahir")
-    //                 ._flatpickr?.setDate(tanggal, true, "Y-m-d");
-    //             $("#jenis_kelamin").val(data.gender).trigger("change");
-    //             $("#usia").val(data.usia);
-    //             $("#no_hp").val(data.no_hp);
-    //             $("#alamat").val(data.alamat);
-    //             $("#jenis_pasien").val(data.jenis_pasien).trigger("change");
+                $("#pendaftaranId").val(data.id);
+                $("#no_antrean").val(data.no_antrean);
+                $("#pasien_id")
+                    .val(data.pasien_id)
+                    .trigger("change");
+                document
+                    .querySelector("#tanggal_kunjungan")
+                    ._flatpickr?.setDate(tanggal, true, "Y-m-d");
+                $("#keluhan").val(data.keluhan);
+                $("#jenis_kunjungan")
+                    .val(data.jenis_kunjungan)
+                    .trigger("change");
 
-    //             $("#modalPendaftaran .modal-title").text(
-    //                 "Edit Data Pendaftaran",
-    //             );
+                $("#modalPendaftaran .modal-title").text(
+                    "Edit Data Pendaftaran",
+                );
 
-    //             bootstrap.Modal.getOrCreateInstance(
-    //                 document.getElementById("modalPendaftaran"),
-    //             ).show();
-    //         },
+                bootstrap.Modal.getOrCreateInstance(
+                    document.getElementById("modalPendaftaran"),
+                ).show();
+            },
 
-    //         error: function (xhr) {
-    //             Swal.fire(
-    //                 "Error",
-    //                 xhr.responseJSON?.message ??
-    //                     "Gagal mengambil data pendaftaran.",
-    //                 "error",
-    //             );
-    //         },
-    //     });
-    // });
+            error: function (xhr) {
+                Swal.fire(
+                    "Error",
+                    xhr.responseJSON?.message ??
+                        "Gagal mengambil data pendaftaran.",
+                    "error",
+                );
+            },
+        });
+    });
 
     $("#formPendaftaran")
         .off("submit")

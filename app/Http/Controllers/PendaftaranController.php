@@ -58,7 +58,9 @@ class PendaftaranController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $pendaftaran = Pendaftaran::with('pasien')->findOrFail($id);
+
+        return response()->json(['success' => true, 'data' => $pendaftaran]);
     }
 
     /**
