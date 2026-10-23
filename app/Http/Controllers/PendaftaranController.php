@@ -76,7 +76,23 @@ class PendaftaranController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'no_antrean' => 'required',
+            'pasien_id' => 'required|exists:pasiens,id',
+            'tanggal_kunjungan' => 'required|date',
+            'jenis_kunjungan' => 'required|string|max:255',
+            'keluhan' => 'required|string',
+        ]);
+
+        // Simpan perubahan
+        $pendaftaran = Pendaftaran::findOrFail($id);
+        $pendaftaran->update($validated);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Pendaftaran berhasil diperbarui',
+            'data' => $pendaftaran
+        ]);
     }
 
     /**
@@ -84,6 +100,12 @@ class PendaftaranController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $pendaftaran = Pendaftaran::findOrFail($id);
+        $pendaftaran->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data pendaftaran berhasil dihapus'
+        ]);
     }
 }

@@ -78,7 +78,7 @@ $(function () {
             },
         ],
 
-        order: [[0, "asc"]],
+        order: [],
         displayLength: 5,
         lengthMenu: [5, 10, 25, 50, 75, 100],
     });
@@ -113,9 +113,7 @@ $(function () {
 
                 $("#pendaftaranId").val(data.id);
                 $("#no_antrean").val(data.no_antrean);
-                $("#pasien_id")
-                    .val(data.pasien_id)
-                    .trigger("change");
+                $("#pasien_id").val(data.pasien_id).trigger("change");
                 document
                     .querySelector("#tanggal_kunjungan")
                     ._flatpickr?.setDate(tanggal, true, "Y-m-d");

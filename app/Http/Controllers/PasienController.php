@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pasien;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -111,13 +112,32 @@ class PasienController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pasien $pasien)
+    public function destroy(string $id)
     {
-        $pasien->delete();
+        try {
+            $pasien = Pasien::findOrFail($id);
+            $pasien->delete();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Data pasien berhasil dihapus'
-        ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Data pasien berhasil dihapus.'
+            ]);
+        } catch (QueryException $e) {
+            if ($e->errorInfo[1] === 1451) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Pasien tidak dapat dihapus karena masih memiliki riwayat kunjungan/pendaftaran di sistem.'
+                ], 422);
+            }
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan pada database saat menghapus data.'
+            ], 500);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data pasien tidak ditemukan atau terjadi kesalahan sistem.'
+            ], 404);
+        }
     }
 }

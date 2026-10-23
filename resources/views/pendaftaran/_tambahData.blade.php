@@ -9,7 +9,7 @@
                 </div>
                 <form id="formPendaftaran" class="row g-6" onsubmit="return false">
                     @csrf
-                    <input type="hidden" name="pasienId" id="pasienId" class="pendaftaranId" />
+                    <input type="hidden" name="pendaftaranId" id="pendaftaranId" class="pendaftaranId" />
                     <div class="col-12 col-md-6">
                         <label class="form-label" for="modalEditUserFirstName">Tanggal Kunjungan</label>
                         <div class="input-group">
