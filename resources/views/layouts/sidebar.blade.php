@@ -58,5 +58,11 @@
                 <div data-i18n="Pendaftaran Pasien">Pendaftaran Pasien</div>
             </a>
         </li>
+        <li class="menu-item {{ request()->routeIs('antrean-pemeriksaan.*') ? 'active' : '' }}">
+            <a href="{{ route('antrean-pemeriksaan.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-app-window"></i>
+                <div data-i18n="Antrean Pemeriksaan">Antrean Pemeriksaan</div>
+            </a>
+        </li>
     </ul>
 </aside>
