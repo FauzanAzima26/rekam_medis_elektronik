@@ -12,17 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pemeriksaans', function (Blueprint $table) {
-            $table->id();
-
-            $table->foreignId('pendaftaran_id')
+            $table->uuid('id')->primary();
+             $table->foreignUuid('pendaftaran_id')
                 ->unique()
                 ->constrained('pendaftarans')
-                ->cascadeOnUpdate()
                 ->restrictOnDelete();
 
-            $table->foreignId('dokter_id')
+            $table->foreignUuid('dokter_id')
                 ->constrained('users')
-                ->cascadeOnUpdate()
                 ->restrictOnDelete();
 
             $table->dateTime('tanggal_pemeriksaan');
@@ -34,7 +31,6 @@ return new class extends Migration
             $table->text('diagnosis');
             $table->text('tindakan')->nullable();
             $table->text('catatan')->nullable();
-
             $table->timestamps();
         });
     }

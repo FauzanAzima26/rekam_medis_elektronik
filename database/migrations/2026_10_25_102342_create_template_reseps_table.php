@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reseps', function (Blueprint $table) {
-            $table->id();
+        Schema::create('template_reseps', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('nama_template', 150);
+            $table->string('diagnosis', 255)->index();
+            $table->text('deskripsi')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reseps');
+        Schema::dropIfExists('template_reseps');
     }
 };
