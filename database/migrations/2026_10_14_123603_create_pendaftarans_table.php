@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('pasien_id')->constrained('pasiens')->restrictOnDelete();
             $table->date('tanggal_kunjungan')->unique();
-            $table->string('no_antrean', 10)->unique();
+            $table->string('no_antrean', 15)->unique();
             $table->string('jenis_kunjungan', 30)->nullable();
             $table->string('keluhan')->nullable();
             $table->string('status')->default('menunggu');

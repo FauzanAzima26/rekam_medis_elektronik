@@ -112,7 +112,6 @@ $(function () {
                     : "";
 
                 $("#pendaftaranId").val(data.id);
-                $("#no_antrean").val(data.no_antrean);
                 $("#pasien_id").val(data.pasien_id).trigger("change");
                 document
                     .querySelector("#tanggal_kunjungan")

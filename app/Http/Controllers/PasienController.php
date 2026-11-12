@@ -40,28 +40,38 @@ class PasienController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'no_rm'         => 'required|string|max:255',
-            'nama_lengkap' => 'required|string|max:255',
-            'tanggal_lahir'  => 'required|date',
+            'nama_lengkap'  => 'required|string|max:255',
+            'tanggal_lahir' => 'required|date',
             'gender'        => 'required|in:L,P',
-            'usia'       => 'required|integer|min:0',
+            'usia'          => 'required|integer|min:0',
             'no_hp'         => 'required|string|regex:/^[0-9]{10,13}$/',
             'jenis_pasien'  => 'required|string|max:255',
             'alamat'        => 'required|string|max:255',
         ]);
 
+        $lastPasien = Pasien::orderByDesc('no_rm')->first();
+
+        $nomorUrut = $lastPasien
+            ? ((int) substr($lastPasien->no_rm, 3)) + 1
+            : 1;
+
+        $noRm = 'RM-' . str_pad($nomorUrut, 6, '0', STR_PAD_LEFT);
+
         $pasien = Pasien::create([
-            'no_rm'         => $validated['no_rm'],
-            'nama_lengkap' => $validated['nama_lengkap'],
-            'tanggal_lahir'  => $validated['tanggal_lahir'],
+            'no_rm'         => $noRm,
+            'nama_lengkap'  => $validated['nama_lengkap'],
+            'tanggal_lahir' => $validated['tanggal_lahir'],
             'gender'        => $validated['gender'],
-            'usia'       => $validated['usia'],
+            'usia'          => $validated['usia'],
             'no_hp'         => $validated['no_hp'],
             'jenis_pasien'  => $validated['jenis_pasien'],
             'alamat'        => $validated['alamat'],
         ]);
 
-        return response()->json(['success' => true, 'data' => $pasien]);
+        return response()->json([
+            'success' => true,
+            'data' => $pasien
+        ]);
     }
 
     /**
@@ -89,7 +99,6 @@ class PasienController extends Controller
     public function update(Request $request, Pasien $pasien)
     {
         $validated = $request->validate([
-            'no_rm' => 'required',
             'nama_lengkap' => 'required',
             'tanggal_lahir' => 'required|date',
             'gender' => 'required',

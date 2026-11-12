@@ -46,9 +46,9 @@ $(function () {
 
                     if (row.status === "Dipanggil") {
                         return `
-                             <a
-                                href="/pemeriksaan?pendaftaran_id=#"
-                                class="btn btn-sm btn-primary btn-mulai-pemeriksaan">
+                            <a
+                                href="/pemeriksaan/create?pendaftaran_id=${row.id}"
+                                class="btn btn-sm btn-primary">
                                 <i class="ti ti-stethoscope me-1"></i>
                                 Mulai Pemeriksaan
                             </a>
@@ -89,12 +89,6 @@ $(document).on("click", ".btn-panggil", function () {
             updateStatusAntrean(id, "Dipanggil");
         }
     });
-});
-
-$(document).on("click", ".btn-mulai-pemeriksaan", function () {
-    const id = $(this).data("id");
-
-    window.location.href = `/pemeriksaan/create?pendaftaran_id=${id}`;
 });
 
 function updateStatusAntrean(id, status) {

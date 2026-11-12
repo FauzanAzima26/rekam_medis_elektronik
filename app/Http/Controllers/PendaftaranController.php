@@ -41,16 +41,23 @@ class PendaftaranController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'no_antrean'         => 'required|string|max:255',
             'pasien_id' => 'required|exists:pasiens,id',
-            'tanggal_kunjungan'  => 'required|date',
-            'jenis_kunjungan'    => 'required|string|max:255',
-            'keluhan'       => 'required|string',
+            'tanggal_kunjungan' => 'required|date',
+            'jenis_kunjungan' => 'required|string|max:255',
+            'keluhan' => 'required|string',
         ]);
+
+        $tanggal = $validated['tanggal_kunjungan'];
+
+        $validated['no_antrean'] = $this->generateNoAntrean($tanggal);
 
         $pendaftaran = Pendaftaran::create($validated);
 
-        return response()->json(['success' => true, 'data' => $pendaftaran]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Pendaftaran berhasil ditambahkan',
+            'data' => $pendaftaran
+        ]);
     }
 
     /**
@@ -107,5 +114,18 @@ class PendaftaranController extends Controller
             'status' => true,
             'message' => 'Data pendaftaran berhasil dihapus'
         ]);
+    }
+
+    private function generateNoAntrean($tanggal)
+    {
+        $jumlah = Pendaftaran::whereDate(
+            'tanggal_kunjungan',
+            $tanggal
+        )->count();
+
+        $urutan = $jumlah + 1;
+
+        return 'A-' . date('Ymd', strtotime($tanggal)) . '-' .
+            str_pad($urutan, 3, '0', STR_PAD_LEFT);
     }
 }

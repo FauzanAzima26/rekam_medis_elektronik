@@ -40,7 +40,7 @@
                         </select>
                         <div class="invalid-feedback" id="error-pasien_id"></div>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <!-- <div class="col-12 col-md-6">
                         <label class="form-label" for="no_antrean">No. Antrean</label>
 
                         <div class="input-group">
@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="invalid-feedback" id="error-no_antrean"></div>
-                    </div>
+                    </div> -->
                     <div class="col-12 col-md-6">
                         <label class="form-label" for="modalEditUserEmail">Jenis Kunjungan</label>
                         <select

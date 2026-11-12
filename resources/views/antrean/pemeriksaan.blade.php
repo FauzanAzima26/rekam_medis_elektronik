@@ -26,6 +26,7 @@
                 </div>
 
                 <form id="formPemeriksaan">
+                    <input type="hidden" id="pendaftaran_id" name="pendaftaran_id" value="{{ $pendaftaran->id }}">
                     <div class="card-body">
 
                         {{-- Informasi Pasien --}}
@@ -35,30 +36,43 @@
                         </h6>
 
                         <div class="row g-3 mb-4">
+
                             <div class="col-md-3">
                                 <label class="form-label">No. Rekam Medis</label>
-                                <input type="text" class="form-control"
-                                    id="no_rm" name="no_rm" readonly>
+                                <input type="text"
+                                    class="form-control"
+                                    id="no_rm"
+                                    value="{{ $pendaftaran->pasien->no_rm }}"
+                                    readonly>
                             </div>
 
                             <div class="col-md-3">
                                 <label class="form-label">No. Antrean</label>
-                                <input type="text" class="form-control"
-                                    id="no_antrean" name="no_antrean" readonly>
+                                <input type="text"
+                                    class="form-control"
+                                    id="no_antrean"
+                                    value="{{ $pendaftaran->no_antrean }}"
+                                    readonly>
                             </div>
 
                             <div class="col-md-3">
                                 <label class="form-label">Nama Pasien</label>
-                                <input type="text" class="form-control"
-                                    id="nama_pasien" name="nama_pasien" readonly>
+                                <input type="text"
+                                    class="form-control"
+                                    id="nama_pasien"
+                                    value="{{ $pendaftaran->pasien->nama_lengkap }}"
+                                    readonly>
                             </div>
 
                             <div class="col-md-3">
                                 <label class="form-label">Tanggal Pemeriksaan</label>
-                                <input type="text" class="form-control"
+                                <input type="text"
+                                    class="form-control"
                                     id="tanggal_pemeriksaan"
-                                    name="tanggal_pemeriksaan" readonly>
+                                    value="{{ \Carbon\Carbon::parse($pendaftaran->tanggal_kunjungan)->format('d-m-Y') }}"
+                                    readonly>
                             </div>
+
                         </div>
 
                         <hr class="my-4">

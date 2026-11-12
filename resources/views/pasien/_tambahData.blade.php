@@ -12,12 +12,12 @@
                     <input type="hidden" name="pasienId" id="pasienId" class="pasienId">
                     <div class="col-12 col-md-6">
                         <label class="form-label" for="modalEditUserFirstName">No. RM</label>
-                        <input
-                            type="text"
+                        <input type="text"
+                            class="form-control"
                             id="no_rm"
                             name="no_rm"
-                            class="form-control no_rm"
-                            placeholder="Masukan no. rm" />
+                            placeholder="Nomor RM dibuat otomatis"
+                            readonly>
                         <div class="invalid-feedback" id="error-no_rm"></div>
                     </div>
                     <div class="col-12 col-md-6">
